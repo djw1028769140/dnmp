@@ -1,0 +1,3 @@
+FROM redis:3.1.3
+
+MAINTAINER djw <1028769140@qq.com>
