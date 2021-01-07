@@ -54,9 +54,13 @@ Swoole 4.4.12
    └─.gitignore
 ```
 
-##### 启动步骤
+##### 启动步骤:
 
-`1. 预先下载 redis, swoole 安装包放置在 container/php/ext 目录下`
+`1.复制 .env 示例文件: cp .env-example .env`
+
+`2.修改 HTML_DIR 文件位置, 以实际代码位置填写`
+
+`3. 预先下载 redis, swoole 安装包放置在 container/php/ext 目录下`
 ```
 注意:
 
@@ -67,11 +71,10 @@ COPY ./ext/phpredis.tar.gz /tmp/
 
 COPY ./ext/swoole-src.tar.gz /tmp/
 ```
-`2. `
+`4. `
 
 
-`3. 输入命令:`
-
+`5. 输入命令:`
 ```
 cd dnmp
 cd container

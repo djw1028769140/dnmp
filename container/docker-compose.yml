@@ -4,56 +4,58 @@ version: "3"
 #  dnmp-network
 
 services:
-#  nginx:
-#    build: ./nginx
-#    container_name: dnmp-nginx
-#    restart: always
-#    command: nginx -g 'daemon off;'
-#    ports:
-#      - "80:80"
-#      - "8889:8889"
-##    networks:
-##      - dnmp-network
-##    depends_on:
-##      - "php"
-#    volumes:
-#      #      - ../www:/var/www/html
-#      - /d/laragon/www:/var/www/html
-#      - ./nginx/conf.d:/etc/nginx/conf.d
-#      - ../logs/nginx:/var/log/nginx
-#  #      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-#  php:
-#    build: ./php
-#    container_name: dnmp-php
-#    restart: always
-#    command: php-fpm
-#    ports:
-#      - "9000:9000"
-##    networks:
-##      - dnmp-network
-#    #    depends_on:
-#    #      - "mysql"
-#    #      - "redis"
-#    volumes:
-#      #      - ../www:/var/www/html
-#      - /d/laragon/www:/var/www/html
-#      - ../logs/php-fpm:/var/log/php-fpm
-#  #      - ./php/conf/php.ini:/usr/local/etc/php/php.ini
-#  #      - ./php/conf/php-fpm.conf:/usr/local/etc/php-fpm.conf
-#  #      - ./php/conf.d/:/usr/local/etc/php/conf.d/
-
-#  mysql:
-#    image: mysql:5.7
-#    container_name: dnmp-mysql
-#    ports:
-#      - "3306:3306"
+  nginx:
+    build: ./nginx
+    container_name: dnmp-nginx
+    restart: always
+    command: nginx -g 'daemon off;'
+    ports:
+      - "80:80"
+      - "8889:8889"
 #    networks:
 #      - dnmp-network
-#    volumes:
-#      - ~/mysql/mydata:/var/lib/mysql
-#      - ~/mysql/dbdump:/root
-#    environment:
-#      MYSQL_ROOT_PASSWORD: "123456"
+#    depends_on:
+#      - "php"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ${HTML_DIR}:/var/www/html
+      - ${LOGS_DIR}/nginx:/var/log/nginx
+  #      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+
+  php:
+    build: ./php
+    container_name: dnmp-php
+    restart: always
+    command: php-fpm
+    ports:
+      - "9000:9000"
+#    networks:
+#      - dnmp-network
+#    depends_on:
+#      - "mysql"
+#      - "redis"
+    volumes:
+      - ${HTML_DIR}:/var/www/html
+      - ${LOGS_DIR}/php-fpm:/var/log/php-fpm
+#      - ./php/conf/php.ini:/usr/local/etc/php/php.ini
+#      - ./php/conf/php-fpm.conf:/usr/local/etc/php-fpm.conf
+#      - ./php/conf.d/:/usr/local/etc/php/conf.d/
+
+  mysql:
+    build: ./mysql
+    container_name: dnmp-mysql
+    ports:
+      - "3306:3306"
+#    networks:
+#      - dnmp-network
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      TZ: Asia/Shanghai
+    volumes:
+      - ./mysql/conf:/etc/mysql/conf.d
+#      - ./mysql/init:/docker-entrypoint-initdb.d/
+      - ${DATA_DIR}/mysql:/var/lib/mysql
+      - ${LOGS_DIR}/mysql:/var/log/mysql
 
   redis:
     build: ./redis
@@ -65,8 +67,8 @@ services:
 #      - dnmp-network
     environment:
       - REDIS_PORT=6379
-      - REDIS_PASSWORD="123456"
+      - REDIS_PASSWORD=123456
     volumes:
       - ./redis/conf:/app_redis/conf
-      - ../data/redis:/app_redis/data
-      - ../logs/redis:/app_redis/log
+      - ${DATA_DIR}/redis:/app_redis/data
+      - ${LOGS_DIR}/redis:/app_redis/log
