@@ -4,43 +4,44 @@ version: "3"
 #  dnmp-network
 
 services:
-  nginx:
-    build: ./nginx
-    container_name: dnmp-nginx
-    restart: always
-    command: nginx -g 'daemon off;'
-    ports:
-      - "80:80"
-      - "8889:8889"
-#    networks:
-#      - dnmp-network
-    depends_on:
-      - "php"
-    volumes:
-      #      - ../www:/var/www/html
-      - /d/laragon/www:/var/www/html
-      - ./nginx/conf.d:/etc/nginx/conf.d
-#      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ../logs/nginx:/var/log/nginx
-  php:
-    build: ./php
-    container_name: dnmp-php
-    restart: always
-    command: php-fpm
-    ports:
-      - "9000:9000"
-#    networks:
-#      - dnmp-network
-    #    depends_on:
-    #      - "mysql"
-    #      - "redis"
-    volumes:
-      #      - ../www:/var/www/html
-      - /d/laragon/www:/var/www/html
-#      - ./php/conf/php.ini:/usr/local/etc/php/php.ini
-#      - ./php/conf/php-fpm.conf:/usr/local/etc/php-fpm.conf
-#      - ./php/conf.d/:/usr/local/etc/php/conf.d/
-      - ../logs/php-fpm:/var/log/php-fpm
+#  nginx:
+#    build: ./nginx
+#    container_name: dnmp-nginx
+#    restart: always
+#    command: nginx -g 'daemon off;'
+#    ports:
+#      - "80:80"
+#      - "8889:8889"
+##    networks:
+##      - dnmp-network
+##    depends_on:
+##      - "php"
+#    volumes:
+#      #      - ../www:/var/www/html
+#      - /d/laragon/www:/var/www/html
+#      - ./nginx/conf.d:/etc/nginx/conf.d
+#      - ../logs/nginx:/var/log/nginx
+#  #      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+#  php:
+#    build: ./php
+#    container_name: dnmp-php
+#    restart: always
+#    command: php-fpm
+#    ports:
+#      - "9000:9000"
+##    networks:
+##      - dnmp-network
+#    #    depends_on:
+#    #      - "mysql"
+#    #      - "redis"
+#    volumes:
+#      #      - ../www:/var/www/html
+#      - /d/laragon/www:/var/www/html
+#      - ../logs/php-fpm:/var/log/php-fpm
+#  #      - ./php/conf/php.ini:/usr/local/etc/php/php.ini
+#  #      - ./php/conf/php-fpm.conf:/usr/local/etc/php-fpm.conf
+#  #      - ./php/conf.d/:/usr/local/etc/php/conf.d/
+
 #  mysql:
 #    image: mysql:5.7
 #    container_name: dnmp-mysql
@@ -53,12 +54,19 @@ services:
 #      - ~/mysql/dbdump:/root
 #    environment:
 #      MYSQL_ROOT_PASSWORD: "123456"
-#  redis:
-#    image: redis:3.0-alpine
-#    container_name: dnmp-redis
-#    ports:
-#      - "6379:6379"
+
+  redis:
+    build: ./redis
+    container_name: dnmp-redis
+    restart: always
+    ports:
+      - "6379:6379"
 #    networks:
 #      - dnmp-network
-#    volumes:
-#      - ~/docker_data/redis:/data
+    environment:
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD="123456"
+    volumes:
+      - ./redis/conf:/app_redis/conf
+      - ../data/redis:/app_redis/data
+      - ../logs/redis:/app_redis/log
