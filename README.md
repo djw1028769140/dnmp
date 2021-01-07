@@ -12,23 +12,28 @@ Swoole 4.4.12
 
 ##### 目录结构
 ```
-├─.gitgnore
+├─.gitgnore #忽略文件
 │
-├─README.md
+├─README.md #readme文档
 │
-├─container //容器目录
-│  ├─docker-compose.yml
+├─container #容器目录
+│  ├─.env-example        #env配置示例
+│  ├─docker-compose.yml  #docker-compose配置文件
 │  ├─mysql
 │  │  ├─Dockerfile
+│  │  ├─init
 │  │  └─conf
+│  │     ├─my.cnf
+│  │     ├─my.cnf.default
 │  │     └─.gitgnore
+│  │
 │  ├─nginx
 │  │  ├─Dockerfile
 │  │  ├─nginx.conf.bak
 │  │  ├─nginx.conf.default
 │  │  └─conf.d
-│  │     ├─default.conf
 │  │     └─.gitignore
+│  │
 │  ├─php
 │  │  ├─Dockerfile
 │  │  ├─ext
@@ -39,26 +44,36 @@ Swoole 4.4.12
 │  │     ├─php.ini-production
 │  │     ├─php-fpm.conf.default
 │  │     └─.gitignore
+│  │
 │  └─redis
 │     ├─Dockerfile
+│     ├─bin
+│     │  ├─redis-entrypoint.sh
+│     │  └─.gitignore
 │     └─conf
+│        ├─redis.conf
 │        └─.gitignore
 │
-├─data //存放各个容器数据目录
+├─data #存放各个容器数据目录
 │  └─.gitignore
 │
-├─logs //存放各个容器日志目录
+├─logs #存放各个容器日志目录
 │  └─.gitignore
 │
-└─www //项目代码目录
+└─www #项目代码目录
    └─.gitignore
 ```
 
 ##### 启动步骤:
 
-`1.复制 .env 示例文件: cp .env-example .env`
+`1. 执行命令`
+```
+cd dnmp                //进入dnmp目录
+cd container           //进入container目录
+cp .env-example .env   //复制.env-example
+```
 
-`2.修改 HTML_DIR 文件位置, 以实际代码位置填写`
+`2. 修改 HTML_DIR 文件位置, 以实际代码位置填写`
 
 `3. 预先下载 redis, swoole 安装包放置在 container/php/ext 目录下`
 ```
@@ -71,14 +86,9 @@ COPY ./ext/phpredis.tar.gz /tmp/
 
 COPY ./ext/swoole-src.tar.gz /tmp/
 ```
-`4. `
 
-
-`5. 输入命令:`
+`4. 执行命令:`
 ```
-cd dnmp
-cd container
-
 docker-compose up -d //启动各个容器
 docker-compose down  //关闭各个容器
 docker-compose ps    //列出启动的容器
