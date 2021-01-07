@@ -3,11 +3,11 @@
 docker + nginx + mysql + php + redis
 需要安装 docker, docker-compose
 
-PHP 7.2 (redis-3.1.3扩展, swoole-4.4.12扩展)
-MySQL 5.7
-Nginx 1.12
-Redis 3.1.3
-Swoole 4.4.12
+所用镜像:
+nginx:1.12-alpine
+mysql:5.7
+php:7.3.18-fpm-alpine  安装(redis-3.1.3扩展, swoole-4.4.12扩展)
+redis:3.0-alpine
 ```
 
 ##### 目录结构
