@@ -44,6 +44,7 @@ services:
   mysql:
     build: ./mysql
     container_name: dnmp-mysql
+    restart: always
     ports:
       - "3306:3306"
 #    networks:
